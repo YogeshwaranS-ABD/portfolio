@@ -5,13 +5,108 @@
     box-sizing: border-box;
 }
 
+/* CSS Variables */
+:root {
+    --light-background: #f4f4f4;
+    --light-text: #333;
+    --light-header-bg: #333;
+    --light-header-text: #fff;
+    --light-section-bg: #fff;
+    --light-card-bg: #f9f9f9;
+    --light-card-border: #e0e0e0;
+    --light-link-color: #007bff;
+    --light-link-hover-color: #0056b3;
+    --light-skill-bg: #007bff;
+    --light-skill-text: #fff;
+    --light-skill-hover-bg: #0056b3;
+    --light-footer-bg: #333;
+    --light-footer-text: #fff;
+    --light-button-bg: #007bff;
+    --light-button-text: #fff;
+    --light-button-hover-bg: #0056b3;
+    --light-hamburger-icon-color: #fff;
+    --light-section-header-text: #333;
+    --light-project-title-color: #007bff;
+    --light-project-text-strong-color: #555;
+
+    --dark-background: #121212;
+    --dark-text: #e0e0e0;
+    --dark-header-bg: #1e1e1e;
+    --dark-header-text: #e0e0e0;
+    --dark-section-bg: #1a1a1a; /* Slightly different from header for depth */
+    --dark-card-bg: #2a2a2a;
+    --dark-card-border: #444;
+    --dark-link-color: #1e90ff;
+    --dark-link-hover-color: #5cadff;
+    --dark-skill-bg: #1e90ff;
+    --dark-skill-text: #fff;
+    --dark-skill-hover-bg: #5cadff;
+    --dark-footer-bg: #1e1e1e;
+    --dark-footer-text: #e0e0e0;
+    --dark-button-bg: #1e90ff;
+    --dark-button-text: #fff;
+    --dark-button-hover-bg: #5cadff;
+    --dark-hamburger-icon-color: #e0e0e0;
+    --dark-section-header-text: #e0e0e0;
+    --dark-project-title-color: #1e90ff;
+    --dark-project-text-strong-color: #bbb;
+
+    /* Default to light theme variables */
+    --current-background: var(--light-background);
+    --current-text: var(--light-text);
+    --current-header-bg: var(--light-header-bg);
+    --current-header-text: var(--light-header-text);
+    --current-section-bg: var(--light-section-bg);
+    --current-card-bg: var(--light-card-bg);
+    --current-card-border: var(--light-card-border);
+    --current-link-color: var(--light-link-color);
+    --current-link-hover-color: var(--light-link-hover-color);
+    --current-skill-bg: var(--light-skill-bg);
+    --current-skill-text: var(--light-skill-text);
+    --current-skill-hover-bg: var(--light-skill-hover-bg);
+    --current-footer-bg: var(--light-footer-bg);
+    --current-footer-text: var(--light-footer-text);
+    --current-button-bg: var(--light-button-bg);
+    --current-button-text: var(--light-button-text);
+    --current-button-hover-bg: var(--light-button-hover-bg);
+    --current-hamburger-icon-color: var(--light-hamburger-icon-color);
+    --current-section-header-text: var(--light-section-header-text);
+    --current-project-title-color: var(--light-project-title-color);
+    --current-project-text-strong-color: var(--light-project-text-strong-color);
+}
+
+body.dark-theme {
+    --current-background: var(--dark-background);
+    --current-text: var(--dark-text);
+    --current-header-bg: var(--dark-header-bg);
+    --current-header-text: var(--dark-header-text);
+    --current-section-bg: var(--dark-section-bg);
+    --current-card-bg: var(--dark-card-bg);
+    --current-card-border: var(--dark-card-border);
+    --current-link-color: var(--dark-link-color);
+    --current-link-hover-color: var(--dark-link-hover-color);
+    --current-skill-bg: var(--dark-skill-bg);
+    --current-skill-text: var(--dark-skill-text);
+    --current-skill-hover-bg: var(--dark-skill-hover-bg);
+    --current-footer-bg: var(--dark-footer-bg);
+    --current-footer-text: var(--dark-footer-text);
+    --current-button-bg: var(--dark-button-bg);
+    --current-button-text: var(--dark-button-text);
+    --current-button-hover-bg: var(--dark-button-hover-bg);
+    --current-hamburger-icon-color: var(--dark-hamburger-icon-color);
+    --current-section-header-text: var(--dark-section-header-text);
+    --current-project-title-color: var(--dark-project-title-color);
+    --current-project-text-strong-color: var(--dark-project-text-strong-color);
+}
+
 /* General Styling */
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.6;
-    color: #333;
-    background-color: #f4f4f4;
+    color: var(--current-text);
+    background-color: var(--current-background);
     padding-top: 70px; /* For fixed header */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -23,19 +118,19 @@ body {
 }
 
 a {
-    color: #007bff;
+    color: var(--current-link-color);
     text-decoration: none;
 }
 
 a:hover {
-    color: #0056b3;
+    color: var(--current-link-hover-color);
     text-decoration: underline;
 }
 
 /* Header & Navigation */
 header {
-    background: #333;
-    color: #fff;
+    background: var(--current-header-bg);
+    color: var(--current-header-text);
     padding: 1rem 20px; /* Added side padding */
     text-align: center;
     position: fixed;
@@ -47,10 +142,8 @@ header {
     display: flex; /* Use flexbox for alignment */
     justify-content: space-between; /* Space between logo/title (if any) and nav */
     align-items: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
-
-/* Placeholder for a logo or site title if added later */
-/* header .logo { font-size: 1.5rem; font-weight: bold; } */
 
 header nav { /* Nav container */
     display: flex;
@@ -69,14 +162,14 @@ header nav ul#main-nav li {
 }
 
 header nav ul#main-nav li a {
-    color: #fff;
+    color: var(--current-header-text);
     font-weight: bold;
     padding: 0.5rem 0; /* Add some padding for easier clicking */
     transition: color 0.3s ease; 
 }
 
 header nav ul#main-nav li a:hover {
-    color: #007bff;
+    color: var(--current-link-color);
     text-decoration: none;
 }
 
@@ -85,7 +178,7 @@ header nav ul#main-nav li a:hover {
     display: none; /* Hidden by default, shown in media query */
     background: none;
     border: none;
-    color: white;
+    color: var(--current-hamburger-icon-color);
     font-size: 1.5rem; /* Adjust size as needed */
     cursor: pointer;
     padding: 0.5rem;
@@ -99,7 +192,7 @@ header nav ul#main-nav li a:hover {
     display: block;
     width: 100%;
     height: 3px;
-    background-color: white;
+    background-color: var(--current-hamburger-icon-color);
     border-radius: 3px;
     transition: all 0.3s ease-in-out;
 }
@@ -115,11 +208,38 @@ header nav ul#main-nav li a:hover {
     transform: translateY(-8px) rotate(-45deg);
 }
 
+/* Theme Switch Button */
+#theme-switch-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 15px; /* Space it from the nav links */
+}
+
+#theme-switch-btn svg {
+    width: 20px; 
+    height: 20px; 
+    stroke: var(--current-header-text); /* Use stroke for line icons */
+    fill: none; /* Ensure fill is none for line icons if not intended */
+    transition: stroke 0.3s ease;
+}
+
+#theme-switch-btn svg.sun-icon {
+    /* stroke: var(--current-header-text); default, no specific override needed unless for dark theme */
+}
+
+#theme-switch-btn svg.moon-icon {
+    /* stroke: var(--current-header-text); default, no specific override needed unless for dark theme */
+}
 
 /* Sections */
 main > section { /* Targeting direct children of main */
     padding: 3rem 0; /* Full width padding */
-    background-color: #fff; /* Section background color */
+    background-color: var(--current-section-bg); /* Section background color */
     
     /* Viewport height and content centering */
     min-height: 100vh;
@@ -127,6 +247,7 @@ main > section { /* Targeting direct children of main */
     flex-direction: column;
     justify-content: center;
     /* align-items: center; */ 
+    transition: background-color 0.3s ease;
 }
 
 .section-content-container {
@@ -159,6 +280,7 @@ main > section { /* Targeting direct children of main */
     text-align: left;
     flex-grow: 1; 
     margin: 0; 
+    color: var(--current-text);
 }
 
 /* Decorative Images Styling (for Skills, Education, Achievements) */
@@ -218,7 +340,8 @@ main > section h2 {
     text-align: center;
     margin-bottom: 2rem; 
     font-size: 2.5rem;
-    color: #333;
+    color: var(--current-section-header-text);
+    transition: color 0.3s ease;
 }
 
 /* Card-like elements */
@@ -226,13 +349,14 @@ main > section h2 {
 #achievements ul li, 
 #certifications ul li,
 #education p {
-    background: #f9f9f9;
-    border: 1px solid #e0e0e0;
+    background: var(--current-card-bg);
+    border: 1px solid var(--current-card-border);
     border-radius: 8px;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    transition: box-shadow 0.3s ease-in-out;
+    transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease, border-color 0.3s ease;
+    color: var(--current-text);
 }
 
 #projects article:hover, 
@@ -253,8 +377,8 @@ main > section h2 {
 }
 
 #skills ul li {
-    background-color: #007bff;
-    color: #fff;
+    background-color: var(--current-skill-bg);
+    color: var(--current-skill-text);
     padding: 0.5rem 1rem;
     border-radius: 20px;
     font-size: 0.9rem;
@@ -263,32 +387,36 @@ main > section h2 {
 }
 
 #skills ul li:hover {
-    background-color: #0056b3; 
+    background-color: var(--current-skill-hover-bg); 
     transform: translateY(-2px); 
     box-shadow: 0 4px 8px rgba(0,0,0,0.15); 
 }
 
 #skills ul li strong {
     font-weight: bold;
-    color: #eee;
+    /* color: #eee; For light theme this might be too light, let's use current-skill-text or a slightly darker variant if needed */
+    color: var(--current-skill-text); /* Assuming strong text should match skill text color */
     margin-right: 5px;
 }
 
 /* Projects Section */
 #projects article h3 {
-    color: #007bff;
+    color: var(--current-project-title-color);
     margin-bottom: 0.75rem;
     font-size: 1.5rem;
+    transition: color 0.3s ease;
 }
 
 #projects article p {
     margin-bottom: 0.5rem;
     line-height: 1.7;
+    color: var(--current-text);
 }
 
 #projects article p strong {
     font-weight: bold;
-    color: #555;
+    color: var(--current-project-text-strong-color);
+    transition: color 0.3s ease;
 }
 
 /* Certifications, Education, Achievements */
@@ -300,10 +428,12 @@ main > section h2 {
 #certifications ul li, #achievements ul li {
     font-size: 1rem;
     margin-bottom: 1rem;
+    color: var(--current-text);
 }
 
 #education p {
     font-size: 1rem;
+    color: var(--current-text);
 }
 
 /* Projects Section - Specific Layouts */
@@ -343,9 +473,10 @@ main > section h2 {
 footer {
     text-align: center;
     padding: 2rem 0;
-    background: #333;
-    color: #fff;
+    background: var(--current-footer-bg);
+    color: var(--current-footer-text);
     margin-top: 2rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 footer p {
@@ -359,8 +490,8 @@ footer p {
     right: 30px;
     z-index: 1001;
     border: none;
-    background-color: #007bff;
-    color: white;
+    background-color: var(--current-button-bg);
+    color: var(--current-button-text);
     cursor: pointer;
     padding: 10px 15px;
     border-radius: 5px;
@@ -368,7 +499,7 @@ footer p {
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
 #scrollToTopBtn.visible {
@@ -377,7 +508,7 @@ footer p {
 }
 
 #scrollToTopBtn:hover {
-    background-color: #0056b3;
+    background-color: var(--current-button-hover-bg);
 }
 
 
@@ -407,12 +538,13 @@ footer p {
         display: none; 
         flex-direction: column; 
         width: 100%;
-        background-color: #444; 
+        background-color: var(--current-header-bg); /* Use variable for mobile nav background */
         position: absolute; 
         top: 100%; 
         left: 0;
         padding: 1rem 0; 
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        border-top: 1px solid var(--current-card-border); /* Add a subtle separator */
     }
 
     header nav ul#main-nav.nav-active {
@@ -427,7 +559,8 @@ footer p {
     header nav ul#main-nav li a {
         display: block; 
         padding: 0.75rem 1rem; 
-        border-bottom: 1px solid #555; 
+        border-bottom: 1px solid var(--current-card-border); /* Use variable for separator */
+        color: var(--current-header-text);
     }
     
     header nav ul#main-nav li:last-child a {
@@ -435,8 +568,8 @@ footer p {
     }
 
     header nav ul#main-nav li a:hover {
-        background-color: #555; 
-        color: #007bff;
+        background-color: var(--current-link-hover-color); /* Use variable for hover background */
+        color: var(--current-header-text); /* Ensure text color contrasts with hover BG */
     }
     
     main > section { 
