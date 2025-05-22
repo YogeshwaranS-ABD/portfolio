@@ -72,6 +72,7 @@ header nav ul#main-nav li a {
     color: #fff;
     font-weight: bold;
     padding: 0.5rem 0; /* Add some padding for easier clicking */
+    transition: color 0.3s ease; 
 }
 
 header nav ul#main-nav li a:hover {
@@ -116,22 +117,106 @@ header nav ul#main-nav li a:hover {
 
 
 /* Sections */
-section {
-    padding: 3rem 20px;
-    margin: 20px auto;
-    max-width: 1200px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.05);
+main > section { /* Targeting direct children of main */
+    padding: 3rem 0; /* Full width padding */
+    background-color: #fff; /* Section background color */
+    
+    /* Viewport height and content centering */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */ 
 }
 
-section:last-of-type {
+.section-content-container {
+    max-width: 1200px;
+    margin: 0 auto; /* Centers the container */
+    padding: 0 20px; /* Side padding for content */
+    width: 100%; /* Ensures it tries to take up available space before max-width kicks in */
+}
+
+/* Specific styling for About Me section */
+#about .section-content-container {
+    display: flex;
+    align-items: center; 
+    gap: 30px; 
+}
+
+.profile-photo {
+    max-width: 250px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease; 
+}
+
+.profile-photo:hover {
+    transform: scale(1.05); 
+}
+
+#about .section-content-container p {
+    text-align: left;
+    flex-grow: 1; 
+    margin: 0; 
+}
+
+/* Decorative Images Styling (for Skills, Education, Achievements) */
+.decorative-images-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px; 
+    flex-wrap: wrap;
+}
+
+.decorative-icon {
+    max-height: 70px;
+    width: auto;
+    border-radius: 4px;
+    opacity: 0.85;
+    transition: opacity 0.3s ease, transform 0.3s ease; 
+}
+
+.decorative-icon:hover {
+    opacity: 1; 
+    transform: scale(1.1); 
+}
+
+/* Certifications Section Specifics */
+#certifications .cert-images {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 20px;
+    flex-wrap: wrap; 
+}
+
+.certification-badge {
+    height: 120px;
+    width: auto; 
+}
+
+.aws-logo {
+    height: 80px;
+    width: auto; 
+}
+
+#certifications ul {
+    text-align: center; 
+    padding-top: 10px; 
+}
+
+
+main > section:last-of-type { 
     border-bottom: none;
 }
 
-section h2 {
+main > section h2 { 
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 2rem; 
     font-size: 2.5rem;
     color: #333;
 }
@@ -174,6 +259,13 @@ section h2 {
     border-radius: 20px;
     font-size: 0.9rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease; 
+}
+
+#skills ul li:hover {
+    background-color: #0056b3; 
+    transform: translateY(-2px); 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); 
 }
 
 #skills ul li strong {
@@ -214,6 +306,39 @@ section h2 {
     font-size: 1rem;
 }
 
+/* Projects Section - Specific Layouts */
+#projects article { 
+    margin-bottom: 2rem; 
+}
+
+.project-layout-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.project-gif {
+    width: 40%; 
+    max-width: 300px; 
+    height: auto;
+    border-radius: 4px;
+    object-fit: cover; 
+    transition: transform 0.3s ease; 
+}
+
+.project-gif:hover {
+    transform: scale(1.05); 
+}
+
+.project-layout-container > div { 
+    flex: 1; 
+}
+
+#projects article:nth-child(even) .project-layout-container {
+    flex-direction: row-reverse;
+}
+
+
 /* Footer */
 footer {
     text-align: center;
@@ -227,77 +352,123 @@ footer p {
     margin: 0;
 }
 
+/* Scroll to Top Button */
+#scrollToTopBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 1001;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#scrollToTopBtn.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+#scrollToTopBtn:hover {
+    background-color: #0056b3;
+}
+
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     body {
-        padding-top: 0; /* Remove padding-top as header will be static */
+        padding-top: 0; 
     }
 
     header {
-        position: relative; /* Relative for positioning context for the absolute nav dropdown */
-        /* Header becomes static in flow due to not being 'fixed' anymore */
-        flex-direction: column; /* Stack logo/title and nav vertically if needed, or manage with nav taking full width */
-        padding: 1rem; /* Adjust padding */
+        position: relative; 
+        padding: 1rem; 
     }
     
-    /* Adjust nav for hamburger menu functionality */
     header nav {
-        width: 100%; /* Nav takes full width */
+        width: 100%; 
         display: flex;
-        justify-content: space-between; /* Hamburger on one side, (hidden) title/logo on other */
+        justify-content: space-between; 
         align-items: center;
     }
     
-    /* If there was a logo/title in header, ensure it's handled here */
-    /* header .logo { margin-bottom: 0.5rem; text-align: center; } */
-
-
     .hamburger-menu {
-        display: flex; /* Show hamburger menu */
-        order: 1; /* Ensure it's typically on the right or as desired */
+        display: flex; 
     }
 
     header nav ul#main-nav {
-        display: none; /* Hide nav list by default on mobile */
-        flex-direction: column; /* Stack links vertically */
+        display: none; 
+        flex-direction: column; 
         width: 100%;
-        background-color: #444; /* Darker background for dropdown */
-        position: absolute; /* Position it absolutely relative to the header */
-        top: 100%; /* Position below the header */
+        background-color: #444; 
+        position: absolute; 
+        top: 100%; 
         left: 0;
-        padding: 1rem 0; /* Padding for the dropdown area */
+        padding: 1rem 0; 
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
     header nav ul#main-nav.nav-active {
-        display: flex; /* Show nav list when active */
+        display: flex; 
     }
 
     header nav ul#main-nav li {
-        margin: 0; /* Reset margin */
-        text-align: center; /* Center links */
+        margin: 0; 
+        text-align: center; 
     }
 
     header nav ul#main-nav li a {
-        display: block; /* Make links take full width for easier tapping */
-        padding: 0.75rem 1rem; /* Padding for links */
-        border-bottom: 1px solid #555; /* Separator for links */
+        display: block; 
+        padding: 0.75rem 1rem; 
+        border-bottom: 1px solid #555; 
     }
     
     header nav ul#main-nav li:last-child a {
-        border-bottom: none; /* Remove border from last link */
+        border-bottom: none; 
     }
 
     header nav ul#main-nav li a:hover {
-        background-color: #555; /* Hover effect for mobile links */
+        background-color: #555; 
         color: #007bff;
     }
     
-    section {
-        padding: 2rem 15px;
+    main > section { 
+        padding: 2rem 0; 
+    }
+    
+    #about .section-content-container {
+        flex-direction: column; 
+        align-items: center; 
     }
 
-    section h2 {
+    #about .section-content-container p {
+        text-align: left; /* Changed from center to left */
+    }
+
+    .profile-photo {
+        margin-bottom: 20px; 
+    }
+
+    #certifications .cert-images {
+        gap: 20px; 
+    }
+
+    .certification-badge {
+        height: 100px; 
+    }
+
+    .aws-logo {
+        height: 70px; 
+    }
+
+    main > section h2 { 
         font-size: 2rem;
     }
 
@@ -311,20 +482,61 @@ footer p {
         text-align: center;
     }
 
-    .container {
-        width: 100%;
-        padding: 0 10px;
+    .container { 
+        width: 100%; 
+        padding: 0 10px; 
+    }
+
+    .project-layout-container, 
+    #projects article:nth-child(even) .project-layout-container {
+        flex-direction: column;
+    }
+
+    .project-gif {
+        width: 100%; 
+        max-width: 350px; 
+        margin: 0 auto 20px auto; 
+    }
+
+    .project-layout-container > div { 
+        text-align: center; 
+    }
+    
+    #projects article h3 { 
+       text-align: center; /* Made explicit for clarity */
+    }
+
+    .decorative-images-container {
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    .decorative-icon {
+        max-height: 60px;
     }
 }
 
 @media (max-width: 480px) {
-    section h2 {
+    main > section h2 { 
         font-size: 1.8rem;
+    }
+
+    .certification-badge {
+        height: 80px; 
+    }
+
+    .aws-logo {
+        height: 60px; 
+    }
+    
+    .project-gif {
+        max-width: 100%; 
     }
 
     #projects article h3 {
         font-size: 1.3rem;
     }
-    
-    /* Removed top: 50px; as top: 100% on #main-nav is now relative to header height */
+
+    .decorative-icon {
+        max-height: 50px;
+    }
 }
