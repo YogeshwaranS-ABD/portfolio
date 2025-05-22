@@ -22,6 +22,22 @@
                 <li><a href="#achievements">Achievements</a></li>
                 <li><a href="#projects">Projects</a></li>
             </ul>
+            <button id="theme-switch-btn" aria-label="Toggle theme">
+                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
         </nav>
     </header>
 
@@ -29,7 +45,7 @@
         <section id="about">
             <div class="section-content-container">
                 <h2>About Me</h2>
-                <img src="photo.jpg" alt="Placeholder image for profile photo" class="profile-photo">
+                <img src="https://via.placeholder.com/250/DDDDDD/000000?Text=Profile+Photo" alt="Profile Photo Placeholder" class="profile-photo">
                 <p>Welcome to my portfolio. I am a passionate Electronics and Communication Engineer graduate currently working as a Software Engineer, eager to leverage my skills in creating innovative solutions.</p>
             </div>
         </section>
@@ -38,8 +54,8 @@
             <div class="section-content-container">
                 <h2>Skills</h2>
                 <div class="decorative-images-container skills-images">
-                    <img src="https://via.placeholder.com/80/777777/FFFFFF?Text=Icon1" alt="Decorative icon for skills" class="decorative-icon">
-                    <img src="https://via.placeholder.com/80/777777/FFFFFF?Text=Icon2" alt="Decorative icon for skills" class="decorative-icon">
+                    <img src="https://via.placeholder.com/80/777777/FFFFFF?Text=Skill+HTML" alt="HTML Skill Icon" class="decorative-icon">
+                    <img src="https://via.placeholder.com/80/777777/FFFFFF?Text=Skill+CSS" alt="CSS Skill Icon" class="decorative-icon">
                 </div>
                 <ul>
                     <li><strong>Frontend:</strong> HTML, CSS</li>
@@ -69,7 +85,7 @@
             <div class="section-content-container">
                 <h2>Education</h2>
                 <div class="decorative-images-container education-images">
-                    <img src="https://via.placeholder.com/100/777777/FFFFFF?Text=EduIcon" alt="Decorative icon for education" class="decorative-icon">
+                    <img src="https://via.placeholder.com/100/777777/FFFFFF?Text=EducationIcon" alt="Education Section Icon" class="decorative-icon">
                 </div>
                 <p>B.E(ECE) from St. Joseph’s College of Engineering, Chennai.</p>
             </div>
@@ -79,8 +95,8 @@
             <div class="section-content-container">
                 <h2>Achievements</h2>
                 <div class="decorative-images-container achievements-images">
-                    <img src="https://via.placeholder.com/80/777777/FFFFFF?Text=AchieveIcon1" alt="Decorative icon for achievements" class="decorative-icon">
-                    <img src="https://via.placeholder.com/80/777777/FFFFFF?Text=AchieveIcon2" alt="Decorative icon for achievements" class="decorative-icon">
+                    <img src="https://via.placeholder.com/80/777777/FFFFFF?Text=AchievementTrophy" alt="Achievement Trophy Icon" class="decorative-icon">
+                    <img src="https://via.placeholder.com/80/777777/FFFFFF?Text=AwardRibbon" alt="Award Ribbon Icon" class="decorative-icon">
                 </div>
                 <ul>
                     <li>IEEE Publication - BMSU-Net: Building Extraction from Aerial Imagery through an International IEEE Conference ICITIIT’24 held at IIIT Kottayam, Kerala.</li>
@@ -96,7 +112,7 @@
                 
                 <article>
                     <div class="project-layout-container">
-                        <img class="project-gif" src="https://via.placeholder.com/400x250/A9A9A9/000000?Text=Rooftop+Extraction+GIF" alt="GIF related to Rooftop Extraction project">
+                        <img class="project-gif" src="https://via.placeholder.com/400x250/A9A9A9/FFFFFF?Text=Project+Rooftop+Extraction" alt="Placeholder GIF for Rooftop Extraction project">
                         <div> <!-- Added a div to wrap text content for flexbox -->
                             <h3>Rooftop Extraction from Aerial Images (Deep Learning)</h3>
                             <p>This is my final year project completed by a team of two. This project is about segmenting satellite images using Deep Learning. This project helped me to venture into a new domain Deep Learning. Researched about the state of the art models used for image segmentation. Developed a new variant of an existing model.</p>
@@ -109,7 +125,7 @@
                 
                 <article>
                     <div class="project-layout-container">
-                        <img class="project-gif" src="https://via.placeholder.com/400x250/C0C0C0/000000?Text=Local+Message+Broadcasting+GIF" alt="GIF related to Local Message Broadcasting System project">
+                        <img class="project-gif" src="https://via.placeholder.com/400x250/C0C0C0/FFFFFF?Text=Project+Local+Messaging" alt="Placeholder GIF for Local Message Broadcasting System project">
                         <div> <!-- Added a div to wrap text content for flexbox -->
                             <h3>Mini-Project: Local Message Broadcasting System</h3>
                             <p>Through this project, I practiced the Python programming language to strengthen my skills with Object-Oriented Programming (OOP). I also added to my experience with Socket Programming, Inter Process Communication (IPC), and Multi Threading with Mutex locks and Semaphores. Finally, I have also gained knowledge of Tkinter, an User Interface framework in Python.</p>
@@ -119,7 +135,7 @@
                 
                 <article>
                     <div class="project-layout-container">
-                        <img class="project-gif" src="https://via.placeholder.com/400x250/D3D3D3/000000?Text=Flexi+Cloud+GIF" alt="GIF related to Flexi Cloud project">
+                        <img class="project-gif" src="https://via.placeholder.com/400x250/D3D3D3/FFFFFF?Text=Project+Flexi+Cloud" alt="Placeholder GIF for Flexi Cloud project">
                         <div> <!-- Added a div to wrap text content for flexbox -->
                             <h3>Mini-Project: Flexi Cloud</h3>
                             <p>I completed this mini project during my training at MagicBus and in preparation for my AWS Cloud Practitioner certification. This project is built upon the following tech stack: Python, Flask, and SQLite as Backend, HTML, and CSS as front end. Through my work on this project, I have strengthened my knowledge of various AWS services such as EC2, S3, RDS, VPC, Cloud Formation, EBS, EFS, and ELB.</p>
