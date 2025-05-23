@@ -127,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const windowHeight = window.innerHeight;
         const focusZoneTop = windowHeight * 0.10;
         const focusZoneBottom = windowHeight * 0.90;
+        const projectArticles = document.querySelectorAll('#projects article');
 
         sections.forEach(section => {
             if (section && section.id) { // Ensure section and section.id exist
@@ -148,19 +149,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (container) textContainers.push(container);
                 } else if (section.id === 'education') {
                     const container = section.querySelector('#education .section-content-container > p');
-                    if (container) textContainers.push(container);
+                    if (container) {
+                        console.log('Education section focus status:', isInFocus, 'Targeting container for class toggle:', container);
+                        textContainers.push(container);
+                    } else {
+                        // This else block can be used to log if the container wasn't found, though it's unlikely with current HTML.
+                        console.log('Education section in focus:', isInFocus, 'BUT #education .section-content-container > p NOT FOUND');
+                    }
                 } else if (section.id === 'achievements') {
                     const container = section.querySelector('#achievements .section-content-container > ul');
                     if (container) textContainers.push(container);
-                } else if (section.id === 'projects') {
-                    const projectTextDivs = section.querySelectorAll('#projects .project-layout-container > div');
-                    projectTextDivs.forEach(div => {
-                        // Ensure we are not targeting the div containing the GIF
-                        if (!div.querySelector('img.project-gif')) {
-                            textContainers.push(div);
-                        }
-                    });
-                }
+                } 
+                // Removed: else if (section.id === 'projects') { ... } 
+                // Project text scaling is now handled independently per article.
 
                 textContainers.forEach(container => {
                     if (isInFocus) {
@@ -176,6 +177,28 @@ document.addEventListener('DOMContentLoaded', () => {
         // let imageInFocusFound = false; // No longer needed here
         // The for (const image of focusableImages) loop and its content are removed.
         // The if (!imageInFocusFound) block is also removed.
+
+        // Individual Project Article Text Scaling
+        projectArticles.forEach(article => {
+            const rect = article.getBoundingClientRect();
+            // focusZoneTop and focusZoneBottom are already defined above
+            const articleCenterY = rect.top + rect.height / 2;
+            const isArticleInFocus = articleCenterY > focusZoneTop && articleCenterY < focusZoneBottom;
+
+            const projectTextDivs = article.querySelectorAll('.project-layout-container > div');
+            projectTextDivs.forEach(div => {
+                // Exclude div containing the project-gif from scaling
+                if (!div.querySelector('img.project-gif')) {
+                    if (isArticleInFocus) {
+                        div.classList.add('text-in-focus');
+                        // console.log('Project article in focus, scaling text div:', div);
+                    } else {
+                        div.classList.remove('text-in-focus');
+                        // console.log('Project article out of focus, removing scale from text div:', div);
+                    }
+                }
+            });
+        });
     }
 
     // Add debounced scroll listener
