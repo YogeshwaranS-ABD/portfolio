@@ -621,7 +621,7 @@ main > section.image-background-active::before {
     background-image: var(--section-dynamic-bg-image);
     background-size: cover;
     background-position: center center;
-    filter: blur(15px) brightness(var(--current-image-bg-brightness));
+    filter: blur(30px) brightness(var(--current-image-bg-brightness));
     opacity: 0.8; /* Base opacity */
     z-index: -1; /* Place it behind the section's content */
     transition: opacity 0.25s ease-in-out, filter 0.5s ease-in-out; 

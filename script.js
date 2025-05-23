@@ -172,96 +172,70 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Image focus handling
-        let imageInFocusFound = false;
-
-        for (const image of focusableImages) {
-            const rect = image.getBoundingClientRect();
-            const imageCenterY = rect.top + rect.height / 2;
-            const isImageInFocus = imageCenterY > focusZoneTop && imageCenterY < focusZoneBottom;
-            const parentSection = image.closest('main > section');
-
-            if (parentSection) {
-                if (isImageInFocus && !imageInFocusFound) {
-                    // If this section already has this specific image as background, mark as found and continue
-                    if (parentSection.classList.contains('image-background-active') &&
-                        parentSection.style.getPropertyValue('--section-dynamic-bg-image') === `url("${image.src}")`) {
-                        imageInFocusFound = true;
-                        continue; 
-                    }
-
-                    // Clear from other sections
-                    sections.forEach(s => {
-                        if (s !== parentSection) {
-                            s.classList.remove('image-background-active');
-                            s.style.removeProperty('--section-dynamic-bg-image');
-                        }
-                    });
-                    
-                    parentSection.classList.add('image-background-active');
-                    parentSection.style.setProperty('--section-dynamic-bg-image', `url("${image.src}")`);
-                    imageInFocusFound = true;
-                    // Do not break here, allow other images in the same section to be processed (though only the first one would have set the background)
-                    // However, the prompt implies the *first* image found in focus across *all* images should win.
-                    // To achieve that, we would break. Let's stick to the current loop structure for now,
-                    // which means the last image in focusableImages within a section could override previous ones in the same section if imageInFocusFound was not set yet.
-                    // The current logic correctly ensures only *one* section has the background due to `imageInFocusFound` and clearing other sections.
-                } else {
-                    // If this specific image was the one that set the background for this parentSection, remove it.
-                    if (parentSection.classList.contains('image-background-active') &&
-                        parentSection.style.getPropertyValue('--section-dynamic-bg-image') === `url("${image.src}")`) {
-                        parentSection.classList.remove('image-background-active');
-                        parentSection.style.removeProperty('--section-dynamic-bg-image');
-                        // Note: imageInFocusFound remains true if another image in focus already set the background.
-                        // If this was the image that set imageInFocusFound to true, and it's now out of focus,
-                        // the flag isn't reset here, which is handled by the final check.
-                    }
-                }
-            }
-        }
-
-        // If no image was found in focus at all after checking all images, clear any remaining active section.
-        if (!imageInFocusFound) {
-            sections.forEach(s => {
-                s.classList.remove('image-background-active');
-                s.style.removeProperty('--section-dynamic-bg-image');
-            });
-        }
+        // Image focus handling (now removed from scroll)
+        // let imageInFocusFound = false; // No longer needed here
+        // The for (const image of focusableImages) loop and its content are removed.
+        // The if (!imageInFocusFound) block is also removed.
     }
 
     // Add debounced scroll listener
     window.addEventListener('scroll', debounce(handleScroll, 100));
 
-    // Initial check on page load
+    // Initial check on page load (for text scaling, not image backgrounds)
     handleScroll();
 
     // Image hover effect for background change
-    const hoverableImages = document.querySelectorAll(
+    const hoverableImageSelector = 
         '#skills .decorative-icon, ' +
         '#achievements .decorative-icon, ' +
         '#certifications .certification-badge, ' +
-        '#certifications .aws-logo'
-    );
+        '#certifications .aws-logo';
+    const hoverableImages = document.querySelectorAll(hoverableImageSelector);
 
     function handleImageHover(event) {
         const hoveredImage = event.target;
         const parentSection = hoveredImage.closest('main > section');
+        if (!parentSection) return;
 
-        if (parentSection && parentSection.classList.contains('image-background-active')) {
-            const currentBgImageUrl = parentSection.style.getPropertyValue('--section-dynamic-bg-image');
-            const newBgImageUrl = `url("${hoveredImage.src}")`;
+        const newBgImageUrl = `url("${hoveredImage.src}")`;
+        const currentBgImageUrl = parentSection.style.getPropertyValue('--section-dynamic-bg-image');
 
-            if (newBgImageUrl !== currentBgImageUrl) {
-                parentSection.classList.add('fade-out-bg');
-                setTimeout(() => {
-                    parentSection.style.setProperty('--section-dynamic-bg-image', newBgImageUrl);
-                    parentSection.classList.remove('fade-out-bg');
-                }, 250); // Corresponds to the 0.25s fade-out transition
-            }
+        if (parentSection.classList.contains('image-background-active') && newBgImageUrl !== currentBgImageUrl) {
+            // Section is active with a different image, fade out then fade in new one
+            parentSection.classList.add('fade-out-bg');
+            setTimeout(() => {
+                parentSection.style.setProperty('--section-dynamic-bg-image', newBgImageUrl);
+                parentSection.classList.remove('fade-out-bg'); // This triggers fade-in
+            }, 250); 
+        } else if (!parentSection.classList.contains('image-background-active')) {
+            // Section is not currently active, set image and fade it in
+            parentSection.style.setProperty('--section-dynamic-bg-image', newBgImageUrl);
+            parentSection.classList.add('image-background-active');
         }
+        // Else: section is active with the same image, do nothing.
+    }
+
+    function handleImageLeave(event) {
+        const hoveredImage = event.target;
+        const parentSection = hoveredImage.closest('main > section');
+        if (!parentSection) return;
+
+        const relatedTarget = event.relatedTarget;
+        // Check if the mouse has moved to another hoverable image within the same section
+        if (relatedTarget && parentSection.contains(relatedTarget) && relatedTarget.matches(hoverableImageSelector)) {
+            return; // Still inside another hoverable image in the same section
+        }
+
+        // Mouse has left the boundaries of all hoverable images in the section
+        parentSection.classList.remove('image-background-active'); // This will trigger fade-out
+        // As per instruction, not removing --section-dynamic-bg-image to avoid issues with quick re-hover
+        // setTimeout(() => {
+        //     parentSection.style.removeProperty('--section-dynamic-bg-image');
+        // }, 250); 
     }
 
     hoverableImages.forEach(image => {
         image.addEventListener('mouseenter', handleImageHover);
+        image.addEventListener('mouseleave', handleImageLeave);
     });
 });
