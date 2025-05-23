@@ -605,6 +605,15 @@ footer p {
     transition: transform 0.5s ease-in-out; /* 0.5s duration as requested */
 }
 
+/* Ensure #education p with .text-in-focus gets the correct combined transitions */
+#education p.text-in-focus {
+    /* transform: scale(1.05); is already applied by .text-in-focus */
+    transition: transform 0.5s ease-in-out, 
+                box-shadow 0.3s ease-in-out, 
+                background-color 0.3s ease, 
+                border-color 0.3s ease;
+}
+
 /* Image focus background effect */
 main > section.image-background-active {
     position: relative; /* For pseudo-element positioning */
