@@ -234,4 +234,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial check on page load
     handleScroll();
+
+    // Image hover effect for background change
+    const hoverableImages = document.querySelectorAll(
+        '#skills .decorative-icon, ' +
+        '#achievements .decorative-icon, ' +
+        '#certifications .certification-badge, ' +
+        '#certifications .aws-logo'
+    );
+
+    function handleImageHover(event) {
+        const hoveredImage = event.target;
+        const parentSection = hoveredImage.closest('main > section');
+
+        if (parentSection && parentSection.classList.contains('image-background-active')) {
+            const currentBgImageUrl = parentSection.style.getPropertyValue('--section-dynamic-bg-image');
+            const newBgImageUrl = `url("${hoveredImage.src}")`;
+
+            if (newBgImageUrl !== currentBgImageUrl) {
+                parentSection.classList.add('fade-out-bg');
+                setTimeout(() => {
+                    parentSection.style.setProperty('--section-dynamic-bg-image', newBgImageUrl);
+                    parentSection.classList.remove('fade-out-bg');
+                }, 250); // Corresponds to the 0.25s fade-out transition
+            }
+        }
+    }
+
+    hoverableImages.forEach(image => {
+        image.addEventListener('mouseenter', handleImageHover);
+    });
 });

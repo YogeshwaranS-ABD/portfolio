@@ -621,10 +621,15 @@ main > section.image-background-active::before {
     background-image: var(--section-dynamic-bg-image);
     background-size: cover;
     background-position: center center;
-    filter: blur(5px) brightness(var(--current-image-bg-brightness));
-    opacity: 0.8; /* Adjust opacity as needed, may interact with brightness later */
+    filter: blur(15px) brightness(var(--current-image-bg-brightness));
+    opacity: 0.8; /* Base opacity */
     z-index: -1; /* Place it behind the section's content */
-    transition: opacity 0.5s ease-in-out, filter 0.5s ease-in-out; /* Smooth transition for appearance */
+    transition: opacity 0.25s ease-in-out, filter 0.5s ease-in-out; 
+    /* Note: filter transition is longer, opacity for hover is 0.25s */
+}
+
+main > section.image-background-active.fade-out-bg::before {
+    opacity: 0 !important; /* Force opacity to 0 for fade-out */
 }
 
 
