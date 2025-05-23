@@ -29,6 +29,7 @@
     --light-project-title-color: #007bff;
     --light-project-text-strong-color: #555;
     --light-text-rgb: 51, 51, 51;
+    --image-bg-brightness-light: 95%; /* Slightly dimmed for light theme */
 
     --dark-background: #121212;
     --dark-text: #e0e0e0;
@@ -52,6 +53,7 @@
     --dark-section-header-text: #e0e0e0;
     --dark-project-title-color: #1e90ff;
     --dark-project-text-strong-color: #bbb;
+    --image-bg-brightness-dark: 55%; /* More dimmed for dark theme for text contrast */
 
     /* Default to light theme variables */
     --current-background: var(--light-background);
@@ -76,6 +78,7 @@
     --current-project-title-color: var(--light-project-title-color);
     --current-project-text-strong-color: var(--light-project-text-strong-color);
     --current-text-rgb: var(--light-text-rgb);
+    --current-image-bg-brightness: var(--image-bg-brightness-light);
 }
 
 body.dark-theme {
@@ -101,6 +104,7 @@ body.dark-theme {
     --current-section-header-text: var(--dark-section-header-text);
     --current-project-title-color: var(--dark-project-title-color);
     --current-project-text-strong-color: var(--dark-project-text-strong-color);
+    --current-image-bg-brightness: var(--image-bg-brightness-dark);
 }
 
 /* General Styling */
@@ -593,6 +597,34 @@ footer p {
 
 #scrollToTopBtn:hover {
     background-color: var(--current-button-hover-bg);
+}
+
+/* Text scaling for focus effect */
+.text-in-focus {
+    transform: scale(1.05); /* Start with a 5% zoom, can be adjusted */
+    transition: transform 0.5s ease-in-out; /* 0.5s duration as requested */
+}
+
+/* Image focus background effect */
+main > section.image-background-active {
+    position: relative; /* For pseudo-element positioning */
+    z-index: 0; /* Ensure content can be stacked above pseudo-element */
+}
+
+main > section.image-background-active::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: var(--section-dynamic-bg-image);
+    background-size: cover;
+    background-position: center center;
+    filter: blur(5px) brightness(var(--current-image-bg-brightness));
+    opacity: 0.8; /* Adjust opacity as needed, may interact with brightness later */
+    z-index: -1; /* Place it behind the section's content */
+    transition: opacity 0.5s ease-in-out, filter 0.5s ease-in-out; /* Smooth transition for appearance */
 }
 
 

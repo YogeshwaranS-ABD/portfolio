@@ -101,4 +101,137 @@ document.addEventListener('DOMContentLoaded', () => {
             setTheme(e.matches);
         }
     });
+
+    // Debounce function
+    function debounce(func, delay) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    // Scroll-based focus detection
+    const sections = document.querySelectorAll('main > section');
+    const focusableImages = document.querySelectorAll(
+        '#about .profile-photo, ' +
+        '#skills .decorative-icon, ' +
+        '#certifications .certification-badge, ' +
+        '#certifications .aws-logo, ' +
+        '#education .decorative-icon, ' +
+        '#achievements .decorative-icon, ' +
+        '#projects .project-gif'
+    );
+
+    function handleScroll() {
+        const windowHeight = window.innerHeight;
+        const focusZoneTop = windowHeight * 0.10;
+        const focusZoneBottom = windowHeight * 0.90;
+
+        sections.forEach(section => {
+            if (section && section.id) { // Ensure section and section.id exist
+                const rect = section.getBoundingClientRect();
+                const sectionCenterY = rect.top + rect.height / 2;
+                const isInFocus = sectionCenterY > focusZoneTop && sectionCenterY < focusZoneBottom;
+
+                console.log(`Section ${section.id} is ${isInFocus ? 'in' : 'out of'} focus`);
+
+                const textContainers = [];
+                if (section.id === 'about') {
+                    const container = section.querySelector('#about .section-content-container > p');
+                    if (container) textContainers.push(container);
+                } else if (section.id === 'skills') {
+                    const container = section.querySelector('#skills .section-content-container > ul');
+                    if (container) textContainers.push(container);
+                } else if (section.id === 'certifications') {
+                    const container = section.querySelector('#certifications .section-content-container > ul');
+                    if (container) textContainers.push(container);
+                } else if (section.id === 'education') {
+                    const container = section.querySelector('#education .section-content-container > p');
+                    if (container) textContainers.push(container);
+                } else if (section.id === 'achievements') {
+                    const container = section.querySelector('#achievements .section-content-container > ul');
+                    if (container) textContainers.push(container);
+                } else if (section.id === 'projects') {
+                    const projectTextDivs = section.querySelectorAll('#projects .project-layout-container > div');
+                    projectTextDivs.forEach(div => {
+                        // Ensure we are not targeting the div containing the GIF
+                        if (!div.querySelector('img.project-gif')) {
+                            textContainers.push(div);
+                        }
+                    });
+                }
+
+                textContainers.forEach(container => {
+                    if (isInFocus) {
+                        container.classList.add('text-in-focus');
+                    } else {
+                        container.classList.remove('text-in-focus');
+                    }
+                });
+            }
+        });
+
+        // Image focus handling
+        let imageInFocusFound = false;
+
+        for (const image of focusableImages) {
+            const rect = image.getBoundingClientRect();
+            const imageCenterY = rect.top + rect.height / 2;
+            const isImageInFocus = imageCenterY > focusZoneTop && imageCenterY < focusZoneBottom;
+            const parentSection = image.closest('main > section');
+
+            if (parentSection) {
+                if (isImageInFocus && !imageInFocusFound) {
+                    // If this section already has this specific image as background, mark as found and continue
+                    if (parentSection.classList.contains('image-background-active') &&
+                        parentSection.style.getPropertyValue('--section-dynamic-bg-image') === `url("${image.src}")`) {
+                        imageInFocusFound = true;
+                        continue; 
+                    }
+
+                    // Clear from other sections
+                    sections.forEach(s => {
+                        if (s !== parentSection) {
+                            s.classList.remove('image-background-active');
+                            s.style.removeProperty('--section-dynamic-bg-image');
+                        }
+                    });
+                    
+                    parentSection.classList.add('image-background-active');
+                    parentSection.style.setProperty('--section-dynamic-bg-image', `url("${image.src}")`);
+                    imageInFocusFound = true;
+                    // Do not break here, allow other images in the same section to be processed (though only the first one would have set the background)
+                    // However, the prompt implies the *first* image found in focus across *all* images should win.
+                    // To achieve that, we would break. Let's stick to the current loop structure for now,
+                    // which means the last image in focusableImages within a section could override previous ones in the same section if imageInFocusFound was not set yet.
+                    // The current logic correctly ensures only *one* section has the background due to `imageInFocusFound` and clearing other sections.
+                } else {
+                    // If this specific image was the one that set the background for this parentSection, remove it.
+                    if (parentSection.classList.contains('image-background-active') &&
+                        parentSection.style.getPropertyValue('--section-dynamic-bg-image') === `url("${image.src}")`) {
+                        parentSection.classList.remove('image-background-active');
+                        parentSection.style.removeProperty('--section-dynamic-bg-image');
+                        // Note: imageInFocusFound remains true if another image in focus already set the background.
+                        // If this was the image that set imageInFocusFound to true, and it's now out of focus,
+                        // the flag isn't reset here, which is handled by the final check.
+                    }
+                }
+            }
+        }
+
+        // If no image was found in focus at all after checking all images, clear any remaining active section.
+        if (!imageInFocusFound) {
+            sections.forEach(s => {
+                s.classList.remove('image-background-active');
+                s.style.removeProperty('--section-dynamic-bg-image');
+            });
+        }
+    }
+
+    // Add debounced scroll listener
+    window.addEventListener('scroll', debounce(handleScroll, 100));
+
+    // Initial check on page load
+    handleScroll();
 });
