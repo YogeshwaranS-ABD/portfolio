@@ -113,4 +113,30 @@ document.addEventListener('DOMContentLoaded', () => {
         if (moonIcon) moonIcon.style.display = 'none';
         // If button is missing, no theme switching can occur, so localStorage interaction is skipped.
     }
+
+    // Fish-Eye Hover Effect for Skills Section
+    const skillCells = document.querySelectorAll('.honeycomb-container .honeycomb-cell');
+
+    skillCells.forEach(cell => {
+        cell.addEventListener('mouseenter', () => {
+            skillCells.forEach(otherCell => {
+                if (cell === otherCell) {
+                    otherCell.classList.add('hovered');
+                    otherCell.classList.remove('neighbor-scale');
+                } else {
+                    otherCell.classList.add('neighbor-scale');
+                    otherCell.classList.remove('hovered');
+                }
+            });
+        });
+
+        cell.addEventListener('mouseleave', () => {
+            // When mouse leaves a cell, reset all cells to default.
+            // This handles moving from one cell to another correctly as mouseenter on the new cell will re-apply states.
+            skillCells.forEach(sCell => {
+                sCell.classList.remove('hovered');
+                sCell.classList.remove('neighbor-scale');
+            });
+        });
+    });
 });

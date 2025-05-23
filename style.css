@@ -12,8 +12,8 @@
     --light-header-bg: #333;
     --light-header-text: #fff;
     --light-section-bg: #fff;
-    --light-card-bg: #f9f9f9;
-    --light-card-border: #e0e0e0;
+    --light-card-bg: #ffffff; /* Updated */
+    --light-card-border: transparent; /* Updated */
     --light-link-color: #007bff;
     --light-link-hover-color: #0056b3;
     --light-skill-bg: #007bff;
@@ -34,8 +34,8 @@
     --dark-header-bg: #1e1e1e;
     --dark-header-text: #e0e0e0;
     --dark-section-bg: #1a1a1a; /* Slightly different from header for depth */
-    --dark-card-bg: #2a2a2a;
-    --dark-card-border: #444;
+    --dark-card-bg: #2E2E2E; /* Updated */
+    --dark-card-border: transparent; /* Updated */
     --dark-link-color: #1e90ff;
     --dark-link-hover-color: #5cadff;
     --dark-skill-bg: #1e90ff;
@@ -260,16 +260,17 @@ main > section { /* Targeting direct children of main */
 /* Specific styling for About Me section */
 #about .section-content-container {
     display: flex;
-    align-items: center; 
+    align-items: flex-start; /* Changed from 'center' to 'flex-start' */
     gap: 30px; 
 }
 
 .profile-photo {
-    max-width: 250px;
-    height: auto;
+    max-width: 250px; /* Or adjust if a wider standing photo is intended */
+    height: auto; /* Allow natural height based on aspect ratio and width */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease; 
+    transition: transform 0.3s ease;
+    object-fit: cover; /* Ensure image covers the area well */
 }
 
 .profile-photo:hover {
@@ -354,8 +355,8 @@ main > section h2 {
     border-radius: 8px;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.16); /* Updated */
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out, background-color 0.3s ease-in-out, border-color 0.3s ease-in-out; /* Updated */
     color: var(--current-text);
 }
 
@@ -363,10 +364,13 @@ main > section h2 {
 #achievements ul li:hover, 
 #certifications ul li:hover,
 #education p:hover {
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.12), 0 3px 5px rgba(0,0,0,0.20); /* Updated */
+    transform: translateY(-2px); /* Added */
 }
 
 /* Skills Section */
+/* Old #skills ul and #skills ul li styles commented out or removed */
+/*
 #skills ul {
     list-style: none;
     padding: 0;
@@ -394,10 +398,89 @@ main > section h2 {
 
 #skills ul li strong {
     font-weight: bold;
-    /* color: #eee; For light theme this might be too light, let's use current-skill-text or a slightly darker variant if needed */
-    color: var(--current-skill-text); /* Assuming strong text should match skill text color */
+    color: var(--current-skill-text); 
     margin-right: 5px;
 }
+*/
+
+.honeycomb-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto; /* Added top margin */
+    max-width: 900px; 
+    padding: 0 10px; /* Padding to prevent cells sticking to edge on smaller screens */
+}
+
+.honeycomb-cell {
+    width: 180px; /* Increased width for better text fit */
+    height: 103.92px; /* width * sqrt(3)/2 (180 * 0.5774) */
+    background-color: var(--current-skill-bg);
+    color: var(--current-skill-text);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* margin: 55px 5px 5px; original margin for taller cells */
+    margin: 30px 5px; /* Adjusted margin for interlocking: vertical space for hex top/bottom, horizontal space */
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease, opacity 0.3s ease-in-out;
+    box-sizing: border-box; /* Ensure padding is included in width/height */
+    transform: scale(1);
+    opacity: 1;
+    z-index: 1;
+}
+
+/* .honeycomb-cell:hover {
+    background-color: var(--current-skill-hover-bg);
+    transform: scale(1.1); 
+} */
+
+.honeycomb-cell.hovered {
+    transform: scale(1.25);
+    opacity: 1;
+    z-index: 10;
+    background-color: var(--current-skill-hover-bg); /* Apply hover background to hovered cell */
+}
+
+.honeycomb-cell.neighbor-scale {
+    transform: scale(0.85);
+    opacity: 0.7;
+    z-index: 1; /* Ensure neighbors are below the hovered item */
+}
+
+
+/* Attempt at simple interlocking for even distribution. 
+   This creates two "columns" that are staggered.
+   For a more complex N-column layout, more specific nth-child rules or row wrappers would be needed.
+   The (6n+X) selectors try to target cells based on a hypothetical 3-column layout, 
+   but with flex-wrap, it's more about the visual staggering.
+   A simpler approach for staggering:
+*/
+.honeycomb-container > .honeycomb-cell:nth-child(odd) {
+    /* Cells in odd positions in the flex container flow */
+    margin-top: 50px; /* Push odd cells down slightly */
+}
+.honeycomb-container > .honeycomb-cell:nth-child(even) {
+    /* Cells in even positions */
+     margin-bottom: 50px; /* Push even cells up slightly */
+}
+
+
+.skill-name {
+    padding: 10px;
+    font-size: 0.9rem;
+    display: block; /* Ensure span takes up space for padding */
+    word-wrap: break-word; /* Break long skill names */
+}
+
+.skill-name strong {
+    font-weight: bold;
+    color: var(--current-skill-text); /* Ensure strong tag inherits color or has specific color */
+}
+
 
 /* Projects Section */
 #projects article h3 {
@@ -605,15 +688,35 @@ footer p {
         font-size: 2rem;
     }
 
-    #skills ul {
+    /* #skills ul { OLD RESPONSIVE STYLES
         flex-direction: column;
         align-items: center;
     }
 
-    #skills ul li {
+    #skills ul li { OLD RESPONSIVE STYLES
         width: 80%;
         text-align: center;
+    } */
+
+    .honeycomb-container {
+        flex-direction: column; /* Stack cells vertically on small screens */
+        align-items: center;
     }
+
+    .honeycomb-cell {
+        width: 80%; /* Make cells wider on small screens */
+        max-width: 300px; /* Max width for very small screens */
+        margin: 15px 0 !important; /* Reset horizontal margins and reduce vertical for stacked layout, !important to override staggering */
+        height: auto; /* Adjust height automatically based on content */
+        min-height: 60px; /* Minimum height for small cells */
+        clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%); /* More rectangular hexagon for stacked */
+    }
+     .honeycomb-container > .honeycomb-cell:nth-child(odd),
+     .honeycomb-container > .honeycomb-cell:nth-child(even) {
+        margin-top: 15px !important; /* Standardize margin for stacked view */
+        margin-bottom: 15px !important;
+    }
+
 
     .container { 
         width: 100%; 
