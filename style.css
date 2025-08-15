@@ -394,6 +394,19 @@ main > section { /* Targeting direct children of main */
     transform: scale(1.1); 
 }
 
+.education-icon {
+    max-height: 250px;
+    width: auto;
+    border-radius: 4px;
+    opacity: 0.85;
+    transition: opacity 0.3s ease, transform 0.3s ease; 
+}
+
+.education-icon:hover {
+    opacity: 1; 
+    transform: scale(1.1); 
+}
+
 /* Certifications Section Specifics */
 #certifications .cert-images {
     display: flex;
